@@ -5,10 +5,10 @@
 #include <iostream>  
 
 template<typename Type>
-class pair;
+class HashTable;
 
 template<typename Type>
-class HashTable;
+class pair;
 
 
 template<typename Type>
@@ -17,8 +17,10 @@ class iterator {
     private:
         HashTable<Type>* hash;
         Pair<Type>* current;
-    public:
+
         iterator(HashTable<Type>* h, Pair<Type>* c) : hash(h), current(c) {}
+    public:
+       
 
         Type& operator*() const {
             if(current == NULL) {

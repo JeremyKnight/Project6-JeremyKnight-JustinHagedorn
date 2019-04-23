@@ -2,6 +2,9 @@
 #define _PAIR_H_
 
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 template<typename Type>
 struct pair {
@@ -13,6 +16,10 @@ struct pair {
     pair() : first(""), second(Type()) {}
 
     pair(const pair& other) { first = other.first; second = other.second; }
+
+    string to_string() {
+        string str = first + " " + second;
+    }
 };
 
 #endif
