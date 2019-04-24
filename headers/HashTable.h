@@ -3,19 +3,19 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include "pair.h"
-#include "iterator.h"
+#include "myPair.h"
+#include "myIterator.h"
 
 
-template<typename Type, typename OtherType>
+template<typename Type>
 class HashTable {
     private:
-        std::vector<std::list<pair<OtherType>>> hash;
+        std::vector<std::list<myPair<Type>>> hash;
         int size;
     
     public:    
         HashTable(int s) {
-            hash = vector<list<pair<OtherType>>>(size);
+            hash = vector<list<myPair<Type>>>(size);
             size = s;
         }
 
@@ -37,30 +37,31 @@ class HashTable {
                 if(hash[i].empty()) {
                     std::cout << "hash has somethng in it at " << i << std::endl;
                     //loop through list in hashtable
-                    std::list<pair>::iterator it;
+                    
                     std::cout << "looping through list at hash[" << i << "]" << std::endl;
-                    for(it = hash[i].begin(); it!= data.end(); ++it) {
-                        std::cout << "making a pair type of hash at i" << std::endl;
-                        pair p = pair(hash[i].it.first, hash[i].it.second);
-                        std::cout << "this worked from making new pair" << std::endl;
+                    std::list<myPair<Type>> listInHash = hash[i];
+                    for(std::list<myPair>::myIterator it = listInHash.begin(); it!= listInHash.end(); ++it) {
+                        std::cout << "making a myPair type of hash at i" << std::endl;
+                        myPair p = myPair(hash[i].it.first, hash[i].it.second);
+                        std::cout << "this worked from making new myPair" << std::endl;
                         other.insert(p);
-                        std::cout << "new pair was inserted" << std::endl;
+                        std::cout << "new myPair was inserted" << std::endl;
                     }   
                 }
             }
 
         }
 
-        iterator insert(const pair<Type>& item) {
+        myIterator insert(const myPair<Type>& item) {
             //create a type of insert function that creates a mostly unique string
             //initailaze list object if soemthing is there else, add it to the list
         }
 
         /*
-        iterator insert(const list) {}
+        myIterator insert(const list) {}
         */
 
-        bool remove(const pair<Type>& item){
+        bool remove(const myPair<Type>& item){
 
         }
 
@@ -68,18 +69,18 @@ class HashTable {
 
         }
 
-        iterator locate(const pair<Type> & item) {}
+        myIterator locate(const myPair<Type> & item) {}
 
-        iterator locate(const string & key) {}
+        myIterator locate(const string & key) {}
 
 
         int getSize() {
-            return s;
+            return size;
         }
 
         void setsize(int s) {
             size = s;
-            hash.size() = s;
+            hash.resize(s);
         }
 
         /*
@@ -87,14 +88,14 @@ class HashTable {
         */
 
         void print() {
-            for(int i = 0; i<other.getSize(); i++) {
+            for(int i = 0; i<size; i++) {
                 std::cout << "hash[" << i << "] ";
-                if(hash[i].empty()) {
-                    std::endl;
+                if(!hash[i].empty()) {
+                    std::cout << std::endl;
                     //loop through list in hashtable
-                    std::list<pair>::iterator it;
+                    
                     int thing = 0;
-                    for(it = hash[i].begin(); it!= data.end(); ++it) {
+                    for(std::list<myPair>::myIterator it = hash[i].begin(); it!= hash[i].end(); ++it) {
                         std::cout<< "    list at " << thing << ": " << hash[i].it.tostring() << std::endl;
                         thing++;
                     }
