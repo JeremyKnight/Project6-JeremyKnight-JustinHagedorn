@@ -7,15 +7,15 @@
 #include "iterator.h"
 
 
-template<typename Type>
+template<typename Type, typename OtherType>
 class HashTable {
     private:
-        std::vector<std::list<pair>> hash;
+        std::vector<std::list<pair<OtherType>>> hash;
         int size;
     
     public:    
         HashTable(int s) {
-            hash = vector<list<Type>>(size);
+            hash = vector<list<pair<OtherType>>>(size);
             size = s;
         }
 

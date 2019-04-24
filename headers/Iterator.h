@@ -10,7 +10,6 @@ class HashTable;
 template<typename Type>
 class pair;
 
-
 template<typename Type>
 class iterator {
     friend class HashTable<Type>;
@@ -18,21 +17,17 @@ class iterator {
         HashTable<Type>* hash;
         Pair<Type>* current;
 
-        iterator(HashTable<Type>* h, Pair<Type>* c) : hash(h), current(c) {}
+        iterator(HashTable<Type>* h, pair<Type>* c) { //: hash(h), current(c) {} 
+            current = *c;
+            hash = *h;
+        }
     public:
        
-
         Type& operator*() const {
             if(current == NULL) {
                 throw std::invalid_argument("failed in pointer operator");
             }
             return current->second;
-        }
-
-        iterator& operator++() const {
-            if(current == NULL) {
-                throw std::invalid_argument("attempt to go past vector's limit");
-            }
         }
 
 };
