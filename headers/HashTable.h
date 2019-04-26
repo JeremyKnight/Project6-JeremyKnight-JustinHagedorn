@@ -88,7 +88,7 @@ class HashTable {
         */
 
         bool remove(const myPair<Type>& item){
-            
+
         }
 
         bool remove(const string & key) {
@@ -98,6 +98,7 @@ class HashTable {
         myIterator<Type> locate(const myPair<Type> & item) {
             
             hash[hashFunction(item.first)];
+            
         }
 
         myIterator<Type> locate(const string & key) {
