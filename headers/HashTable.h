@@ -6,7 +6,6 @@
 #include "myPair.h"
 #include "myIterator.h"
 #include <typeinfo>
-#include <type_traits>
 
 
 template<typename Type>
@@ -17,7 +16,7 @@ class HashTable {
     
     public:    
         HashTable(int s) {
-            hash = vector<list<myPair<Type>>>(size);
+            hash = vector<list<myPair<Type>>>(s);
             size = s;
         }
 
@@ -38,29 +37,22 @@ class HashTable {
                 //if there is something
                 if(!hash[i].empty()) {
                     std::cout << "hash has somethng in it at " << i << std::endl;
-                    //loop through list in hashtable
-                    
-                    //std::cout << "looping through list at hash[" << i << "]" << std::endl;
-                    //std::list<myPair<Type>> listInHash = hash[i];
-                    /*
-                    for(auto it = listInHash.begin(); it!= listInHash.end(); ++it) {
-                        std::cout << "making a myPair type of hash at i" << std::endl;
-                        myPair<Type> p = myPair<Type>(hash[i].list.first, hash[i].list.second);
-                        std::cout << "this worked from making new myPair" << std::endl;
-                        other.insert(p);
-                        std::cout << "new myPair was inserted" << std::endl;
-                    }   
-                    */
                     this->insert(other.getList(i));
                 }
             }
 
         }
 
-        myIterator<Type> insert(const Type& item) {
-            myPair<Type> p = myPair<Type>(hashFunction(item), item);
-            insert(p);
+        myIterator<Type> insert(std::string s,const Type& item) {
+            try {
+                std::cout << "entering insert helper function\n";
+                myPair<Type> p = myPair<Type>(s, item);
+                insert(p);
+            } catch(const std::bad_alloc&) {
+                std::cout << "found bad alloc inside insert helper function!" << std::endl;
+            }
         }
+        
 
         myIterator<Type> insert(list<myPair<Type>> l) {
             int i = std::stoi(l.front().first);
@@ -72,19 +64,21 @@ class HashTable {
         myIterator<Type> insert(const myPair<Type>& item) {
             //create a type of insert function that creates a mostly unique string
             //initailaze list object if soemthing is there else, add it to the list
-            int i = std::stoi(item.first);
+            int i = hashFunction(item.first);
+            std::cout << i << " \n"; 
             std::cout << i << std::endl;
             if(!hash[i].empty()) {
                 std::cout << "hash at i isn't null, pushing to front of list" << std::endl;  
                 hash[i].push_front(item);
-
-                return myIterator<Type>(this, std::remove_const<const myPair<Type>>::type item);
+                //std::remove_const<const myPair<Type>>::type 
+                return myIterator<Type>(this, &item);
             } else {
                 //create list, and put item with the list
+                std::cout << "create new list for hash at i \n";
                 std::list<myPair<Type>> newList =  std::list<myPair<Type>>();
                 newList.push_front(item);
                 hash[i] = newList;
-                return myIterator<Type>(this, std::remove_const<const myPair<Type>>::type item);
+                return myIterator<Type>(this, &item);
 
             }
         }
@@ -94,16 +88,21 @@ class HashTable {
         */
 
         bool remove(const myPair<Type>& item){
-
+            
         }
 
         bool remove(const string & key) {
 
         }
 
-        myIterator<Type> locate(const myPair<Type> & item) {}
+        myIterator<Type> locate(const myPair<Type> & item) {
+            
+            hash[hashFunction(item.first)];
+        }
 
-        myIterator<Type> locate(const string & key) {}
+        myIterator<Type> locate(const string & key) {
+
+        }
 
 
         int getSize() const{
@@ -128,10 +127,9 @@ class HashTable {
                     
                     int thing = 0;
                     for(auto it = hash[i].begin(); it!= hash[i].end(); ++it) {
-                        std::cout<< "    list at " << thing << ": " << hash[i].it.tostring() << std::endl;
+                        std::cout<< "    list at " << thing << ": " << it->toString() << std::endl;
                         thing++;
                     }
-                   
                 }
                 else {
                     std::cout << "is empty" << std::endl;
@@ -139,15 +137,13 @@ class HashTable {
             }//hello
         }
 
-        
-        std::string hashFunction(const Type& item) const{
-            if(typeid(item).name() == "int") {
-                std::cout << "item is an int! \n";
-                std::string str = to_string(item % size);
-                return str;
-            } else {
-                std::cout << "item is not an int! \n";
-            }
+        //hash function takes a string and places it at int
+        int hashFunction(std::string s) const {
+            
+            int i = int(s.front()) % size;
+            std::cout << i << " is hash function for string: " << s << std::endl;
+            return i;
+
         }
 
         std::list<myPair<Type>> getList(int i) const{

@@ -17,8 +17,9 @@ struct myPair {
 
     myPair(const myPair& other) { first = other.first; second = other.second; }
 
-    string to_string() {
-        string str = first + " " + second;
+    std::string toString() const {
+        std::string str = first + " " + std::to_string(second);
+        return str;
     }
 };
 

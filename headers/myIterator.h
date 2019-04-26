@@ -15,12 +15,18 @@ class myIterator {
     friend class HashTable<Type>;
     private:
         HashTable<Type>* hash;
-        myPair<Type>* current;
+        const myPair<Type>* current;
 
-        myIterator<Type>(HashTable<Type>* h, myPair<Type>* c) { //: hash(h), current(c) {} 
+        myIterator<Type>(HashTable<Type>* h, const myPair<Type>* c) { //: hash(h), current(c) {} 
             current = c;
             hash = h;
         }
+
+         myIterator<Type>(HashTable<Type>* h, myPair<Type>* c) { //: hash(h), current(c) {} 
+            current = c;
+            hash = h;
+        }
+
     public:
        
         Type& operator*() const {
