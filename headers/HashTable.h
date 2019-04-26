@@ -6,6 +6,7 @@
 #include "myPair.h"
 #include "myIterator.h"
 #include <typeinfo>
+#include <type_traits>
 
 
 template<typename Type>
@@ -50,7 +51,7 @@ class HashTable {
                         std::cout << "new myPair was inserted" << std::endl;
                     }   
                     */
-                    hash[i].insert(other.getList(i));
+                    this->insert(other.getList(i));
                 }
             }
 
@@ -64,7 +65,8 @@ class HashTable {
         myIterator<Type> insert(list<myPair<Type>> l) {
             int i = std::stoi(l.front().first);
             hash[i] = l;
-            return myIterator<Type>(hash.front());
+            //cout << 
+            return myIterator<Type>(this, &hash[i].front());
         }
 
         myIterator<Type> insert(const myPair<Type>& item) {
@@ -72,16 +74,17 @@ class HashTable {
             //initailaze list object if soemthing is there else, add it to the list
             int i = std::stoi(item.first);
             std::cout << i << std::endl;
-            if(hash[i] !=NULL) {
+            if(!hash[i].empty()) {
                 std::cout << "hash at i isn't null, pushing to front of list" << std::endl;  
                 hash[i].push_front(item);
-                return myIterator<Type>(hash, item);
+
+                return myIterator<Type>(this, std::remove_const<const myPair<Type>>::type item);
             } else {
                 //create list, and put item with the list
                 std::list<myPair<Type>> newList =  std::list<myPair<Type>>();
                 newList.push_front(item);
                 hash[i] = newList;
-                return myIterator<Type>(hash, item);
+                return myIterator<Type>(this, std::remove_const<const myPair<Type>>::type item);
 
             }
         }

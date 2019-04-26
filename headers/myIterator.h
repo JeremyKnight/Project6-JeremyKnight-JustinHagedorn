@@ -17,9 +17,9 @@ class myIterator {
         HashTable<Type>* hash;
         myPair<Type>* current;
 
-        myterator(HashTable<Type>* h, myPair<Type>* c) { //: hash(h), current(c) {} 
-            current = *c;
-            hash = *h;
+        myIterator<Type>(HashTable<Type>* h, myPair<Type>* c) { //: hash(h), current(c) {} 
+            current = c;
+            hash = h;
         }
     public:
        
